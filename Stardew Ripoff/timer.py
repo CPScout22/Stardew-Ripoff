@@ -20,4 +20,4 @@ class Timer:
         #check if timer has run out
         if curent_time - self.start_time >= self.duration:
             self.deactivate()
-            if self.func() #run it
+             if self.func() #run it
