@@ -12,12 +12,13 @@ class Timer:
         self.start_time = pygame.time.get_ticks()
         
     def deactivate(self):
-        self.active =False
+        self.active = False
         self.start_time = 0
         
     def update(self):
         current_time = pygame.time.get_ticks()
         #check if timer has run out
-        if curent_time - self.start_time >= self.duration:
+        if current_time - self.start_time >= self.duration:
             self.deactivate()
-                if self.func() #run it
+            if self.func: #run it
+                 self.func()
