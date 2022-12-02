@@ -1,4 +1,5 @@
 from os import walk
+import pygame
 
 def import_folder(path):
     surface_list = []
@@ -8,6 +9,6 @@ def import_folder(path):
             full_path = path +'/'+ image
             image_surf = pygame.image.load(full_path).convert_alpha()
             surface_list.append(image_surf)
-        print(img_files)
+        #print(img_files)
     
     return surface_list
