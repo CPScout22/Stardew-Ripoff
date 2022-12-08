@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.import_assets()
         self.status = 'down_idle'
         self.frame_index = 0
+        self.z = LAYERS["main"]
         
         #movement attributes------
         self.direction = pygame.math.Vector2()
@@ -29,26 +30,27 @@ class Player(pygame.sprite.Sprite):
             "tool switch": Timer(200),
             "seed use": Timer(350, self.use_seed),
             "seed switch": Timer(200)
-            
             }
         
         #tools
-        self.tools = ['hoe', 'axe', 'water']
+        self.tools = ['hoe', 'axe', 'water',]
         self.tool_index = 0 #default value is hoe no cap
         self.selected_tool = self.tools[self.tool_index]
         
         #seeds
-        self.seeds = ["corn", "tomato"]
+        self.seeds = ["corn", "tomato", "diamondswod", "pumppie", "xmastree", "spongegar", "bingchillin", "sausage", "nerfgun", "21savage"]
         self.seed_index = 0
         self.selected_seed = self.seeds[self.seed_index]
     
   #end of constructer----------------------------------  
     
     def use_tool(self):
-        print(self.selected_tool)
+        pass
+        # print(self.selected_tool)
     
     def use_seed(self):
-        print(self.selected_seed) 
+        pass
+        # print(self.selected_seed) 
      
      
     def import_assets(self):
@@ -62,25 +64,14 @@ class Player(pygame.sprite.Sprite):
         for animation in self.animations.keys():
             full_path = '../graphics/character/' + animation
             self.animations[animation]=import_folder(full_path)
-        print(self.animations)
+        # print(self.animations)
     
     
-    def animate(self, dt):
-        self.frame_index += 4*dt
-        if self.frame_index >= len(self.animations[self.status]):
-            self.frame_index = 0
-        self.image = self.animations[self.status][int(self.frame_index)]
-        
-        #general setup---------
-        self.image = self.animations[self.status][self.frame_index]
-       
-        self.image = pygame.Surface((32,64))
-        self.image.fill('green')
-        self.rect = self.image.get_rect(center = pos)
         
     
     def animate(self, dt): #animation method
-        self.frame_index += 4*dt #increase frame number
+        self.frame_index += int(4*dt) #increase frame number
+        #print(self.status,self.animations[self.status])
         if self.frame_index >= len(self.animations[self.status]): #check if we've reached the end of the frame list
             self.frame_index = 0 # reset the frame index if we've reached the end
         self.image = self.animations[self.status][int(self.frame_index)]
@@ -119,7 +110,7 @@ class Player(pygame.sprite.Sprite):
             if keys[pygame.K_q] and not self.timers["tool switch"].active:
                 self.timers["tool switch"].activate()
                 self.tool_index += 1
-                self.tool_index = self.took+index if self.took_index < len(self.tools) else 0
+                self.tool_index = self.tool_index if self.tool_index < len(self.tools) else 0
                 self.selected_tool = self.tools[self.tool_index]
                 #if tool index > length of tools, then set tool index = 0
         
@@ -128,7 +119,7 @@ class Player(pygame.sprite.Sprite):
                 self.timers['seed use'].activate()
                 self.direction = pygame.math.Vector2()
                 self.frame_index = 0
-                print("use seed")
+                #print("use seed")
         
         
         #change seed
@@ -138,7 +129,7 @@ class Player(pygame.sprite.Sprite):
                 #if seed index > length of seed, then sed seed index = 0
                 self.seed_index = self.seed_index if self.seed_index < len(self.seeds) else 0
                 self.selected_seed = self.seeds[self.seed_index]
-                print(self.selected_seed)
+                #print(self.selected_seed)
         
         
         
@@ -147,7 +138,7 @@ class Player(pygame.sprite.Sprite):
             self.direction = self.direction.normalize()
        
        #horizontal movement     
-        print(self.direction)
+        #print(self.direction)
         self.pos.x += self.direction.x * self.speed * dt
         self.rect.centerx = self.pos.x
        
@@ -169,7 +160,7 @@ class Player(pygame.sprite.Sprite):
             self.status = self.status.split("_")[0] + "_idle"
         #tool use
             if self.timers['tool use'].active:
-                print("tool is being used")
+                # print("tool is being used")
                 self.status = self.status.split("_")[0] + "_" + self.selected_tool
                 self.frame_index = 0
     
